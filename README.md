@@ -2,6 +2,12 @@
 
 This is a sample Spring Application for managing bookmarks.
 
+#API
+
+    /bookmark
+        /add
+        /list
+
 # Setup
 
 ## Settings
