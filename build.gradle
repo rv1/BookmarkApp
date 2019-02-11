@@ -1,21 +1,22 @@
-group 'com.example.BookmarkApp'
-version '1.0-SNAPSHOT'
-
 buildscript {
+    ext {
+        springBootVersion = '2.1.2.RELEASE'
+    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
 apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
+group 'com.example.BookmarkApp'
+version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 jar {
     baseName = 'bookmark-app-sample'
