@@ -25,7 +25,7 @@ public class BookmarkController {
         this.bookmarkRepository = bookmarkRepository;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<BookmarkResponse> addBookmark(@RequestBody Bookmark bookmark) {
         BookmarkResponse response = new BookmarkResponse();
         if (isValid(bookmark)) {
@@ -38,11 +38,25 @@ public class BookmarkController {
         }
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping()
     public ResponseEntity<List<Bookmark>> getAllBookmarks() {
         ArrayList<Bookmark> bookmarks = new ArrayList<>();
         bookmarkRepository.findAll().forEach(bookmarks::add);
         return new ResponseEntity(bookmarks, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Bookmark> getBookmarkById(@PathVariable Integer id) {
+        Optional<Bookmark> bookmark = bookmarkRepository.findById(id);
+
+        BookmarkResponse response = new BookmarkResponse();
+        if (bookmark.isPresent()) {
+            response.setBookmark(bookmark.get());
+            return new ResponseEntity(response, HttpStatus.OK);
+        } else {
+            response.setError(new Error("Bookmark not found."));
+            return new ResponseEntity(response, HttpStatus.NOT_FOUND);
+        }
     }
 
     private boolean isValid(Bookmark bookmark) {
