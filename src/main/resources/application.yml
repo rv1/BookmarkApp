@@ -3,6 +3,6 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/bookmark
+    url: jdbc:mysql://bookmark-app_mysql:3306/bookmark
     username: appUser
     password: superSecretPassword

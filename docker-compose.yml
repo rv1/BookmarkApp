@@ -1,9 +1,29 @@
-mysql:
-  image: mysql
-  ports:
-    - "3306:3306"
-  environment:
-    - MYSQL_USER=appUser
-    - MYSQL_PASSWORD=superSecretPassword
-    - MYSQL_DATABASE=bookmark
-    - MYSQL_ROOT_PASSWORD=rootPassword
+version: '3'
+
+services:
+  bookmark-app:
+    container_name: bookmark-app-name
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bookmark-app:latest
+    depends_on:
+      - db
+    command: ["./wait-for-it.sh", "bookmark-app_mysql:3306", "--", "java", "-jar", "bookmark-app-sample.jar"]
+    ports:
+      - "8080:8080"
+    networks:
+      - bookmark-network
+  db:
+    container_name: bookmark-app_mysql
+    image: mysql
+    networks:
+      - bookmark-network
+    environment:
+      - MYSQL_USER=appUser
+      - MYSQL_PASSWORD=superSecretPassword
+      - MYSQL_DATABASE=bookmark
+      - MYSQL_ROOT_PASSWORD=rootPassword
+networks:
+  bookmark-network:
+    driver: bridge
